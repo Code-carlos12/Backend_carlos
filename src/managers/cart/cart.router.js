@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
       const carts = await cartManager.getCarts();
       res.status(200).json(carts);
     } catch (err) {
-      res.status(400).json({ error400: "solicitud incorrecta" });
+      res.status(500).json({ error500: "error de servidor" });
     }
 });
 
@@ -21,7 +21,7 @@ router.get("/:cid", async (req, res) => {
       const cart = await cartManager.getCartById(Number(cid));
       res.status(200).json(cart);
     } catch (err) {
-      res.status(404).json({ error404: "no encontrado" });
+      res.status(500).json({ error500: "error de servidor" });
     }
 });
 
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
     const newCart = await cartManager.createCart();
     res.status(200).json("Se creó un nuevo carrito.");
   } catch (err) {
-    res.status(400).json({ error400: "Error al crear el carrito" });
+    res.status(500).json({ error500: "error de servidor" });
   }
 });
 
@@ -52,7 +52,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
       res.status(404).json({ error404: "no encontrado" });
     }
   } catch (err) {
-    res.status(400).json({ error400: "solicitud incorrecta" });
+    res.status(500).json({ error500: "error de servidor" });
   }
 });
 
@@ -63,7 +63,7 @@ router.delete("/:cid", async (req, res) => {
     await cartManager.deleteCart(Number(cid));
     res.status(200).json(`Se eliminó el carrito con el id: ${cid}`);
   } catch (err) {
-    res.status(400).json({ error400: "solicitud incorrecta" });
+    res.status(500).json({ error500: "error de servidor" });
   }
 });
 

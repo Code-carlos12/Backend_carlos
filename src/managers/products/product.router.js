@@ -13,10 +13,10 @@ router.get("/", async ( req, res) => {
       res.status(200).json(products);
     } else {
       const limitedProducts = products.slice(0, limit);
-      res.status(206).json(limitedProducts);
+      res.status(200).json(limitedProducts);
     }
   } catch (err) {
-    res.status(400).json({ error400: "solicitud incorrecta" });
+    res.status(500).json({ error500: "error de servidor" });
   }
 })
 
@@ -24,10 +24,11 @@ router.get("/:pid", async (req, res) => {
     let { pid } = req.params;
   
     try {
+      //la busqueda de un producto
       const product = await productManager.getProductById(Number(pid));
       res.status(200).json(product);
     } catch (err) {
-      res.status(404).json({ error404: "no encontrado" });
+      res.status(500).json({ error500: "error de servidor" });
     }
 });
 
@@ -55,10 +56,10 @@ router.post("/", async (req, res) => {
           stock,
           category
         );
-        res.status(201).json("El producto fue creado con éxito");
+        res.status(200).json("El producto fue creado con éxito");
       }
     } catch (err) {
-      res.status(500).json({ error500: "Error al crear el producto" });
+      res.status(500).json({ error500: "error de servidor" });
     }
 });
 
@@ -71,24 +72,29 @@ router.put("/:pid", async (req, res) => {
         props
       );
       if (!updatedProduct) {
-        res.status(404).json({ error404: `El producto con el id: ${pid} no se encontro.` });
+        res.status(404).json({ error404: `El producto con el id: ${pid} no existe.` });
       } else {
         res.status(200).json(updatedProduct);
       }
     } catch (err) {
-      res.status(400).json({ error400: "solicitud incorrecta" });
+      res.status(500).json({ error500: "solicitud incorrecta" });
     }
 });
   
 router.delete("/:pid", async (req, res) => {
-    const { pid } = req.params;
-    try {
-      await productManager.deleteProduct(Number(pid));
-      res.status(200).json(`El producto con el id: ${pid} a si actualizado`);
-    } catch (err) {
-      res.status(400).json({ error400: "solicitud incorrecta" });
+  const { pid } = req.params;
+  try {
+    const product = await productManager.deleteProduct(Number(pid));
+    if (!product) {
+      res.status(404).json({ error404: `El producto con el id: ${pid} no existe` });
+    } else {
+      res.status(200).json(`El producto con el id: ${pid} ha sido eliminado correctamente`);
     }
+  } catch (err) {
+    res.status(500).json({ error500: "Error de servidor" });
+  }
 });
+
 
 
 

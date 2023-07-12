@@ -111,7 +111,7 @@ const fs  = require('fs')
   
           return console.log("Product removed");
         } else {
-          return console.error("Product does not exist");
+          return console.error("El producto no existe");
         }
       } catch (error) {
         return console.error(error);

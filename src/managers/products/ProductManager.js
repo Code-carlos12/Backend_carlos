@@ -107,11 +107,11 @@ const fs  = require('fs')
   
         if (product) {
           products = products.filter((item) => item.id !== id);
-          await fs.promises.writeFile(this.filename, JSON.stringify(products))
+          await fs.promises.writeFile(this.filename, JSON.stringify(products));
   
-          return console.log("Product removed");
+          return products;
         } else {
-          return console.error("El producto no existe");
+          return false;
         }
       } catch (error) {
         return console.error(error);

@@ -2,7 +2,7 @@ const ProductManager = require("./ProductManager");
 const {Router} = require("express");
 
 //me guesta poner la ruta de json, la rura es ese, pero no se porque no me encuentra el archivo :( 
-const productManager = new ProductManager("./Json/productos.json");
+const productManager = new ProductManager();
 const router = Router();
 
 router.get("/", async ( req, res) => {

@@ -1,123 +1,176 @@
-const fs  = require('fs')
+const fs = require("fs");
 
+class ProductManager {
+  //En caso de utilizar solo la clase directamente la ruta debe ser "../Json/products.json"
+  static #path = "./Json/productos.json";
+  constructor() {
+    this.products = [];
+    ProductManager.#path;
+  }
 
- class ProductManager{
-    constructor(filename){
-        this.filename = filename
-        this.format = 'utf-8'
-        this.products = []
-    }
+  _getNextId = () => {
+    const count = this.products.length;
+    const nextId = count > 0 ? this.products[count - 1].id + 1 : 1;
 
-    getNexId = () => {
-      const count = this.products.length;
-      const nextId = count > 0 ? this.products[count -1].id + 1 :1
+    return nextId;
+  };
 
-      return nextId;
-    }
+  addProduct = async (
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    category
+  ) => {
+    const products = await this.getProducts();
 
-    addProduct = async(title, description, price, thumbnail, code, stock,category) =>{
-        const products = await this.getProducts();
-
-      try{
+    try {
       const product = {
-        id: this.getNexId(),
+        id: this._getNextId(),
         title,
         description,
         price,
         thumbnail,
         code,
         stock,
-        category
-        }
+        category,
+        status: true,
+      };
 
-        if(products.find((product) => product.code === code)){
-          return console.log(
-            `El producto con código: ${product,code} ya existe\n`
-          )
-        }else{
-        products.push(product)
-        await fs.promises.writeFile(this.filename, JSON.stringify(products))
+      if (products.find((product) => product.code === code)) {
+        return console.log(`The product with code: ${product.code} already exists`);
         
-        return console.log(products)
+      } else{
+      products.push(product);
+      await fs.promises.writeFile(
+        ProductManager.#path,
+        JSON.stringify(products, null, "\t")
+      );
+
+      return console.log(products);
       }
-    }catch(error){
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
+  getProducts = async () => {
+    try {
+      const data = await fs.promises.readFile(ProductManager.#path, "utf-8");
+      const products = JSON.parse(data);
+      this.products = products;
+
+      return products;
+    } catch (err) {
+      console.log("File not found");
+      return [];
+    }
+  };
+
+  getProductById = async (id) => {
+    const products = await this.getProducts();
+    try {
+      const itemId = Object.values(products).find(
+        (product) => product.id === id
+      );
+
+      if (itemId === undefined) {
+        return console.log(`Product with id: ${id} does not exist`);
+        
+      }
+      console.log(itemId);
+      return itemId;
+    } catch (error) {
       return console.log(error)
     }
-    }
+  };
 
-    getProducts = async() =>{
-        try{
-            const data = await fs.promises.readFile(this.filename, this.format)
-            const products = JSON.parse(data)
-            this.products = products
+  updateProduct = async (id, propsProduct) => {
+    const products = await this.getProducts();
+    try {
+      const index = await products.findIndex((product) => product.id === id);
 
-            return products;
-        } catch(error){
-            console.log('No se encontro el archivo')
-            return []
-        }
-    }
-
-    getProductById= async(id) =>{
-        const products = await this.getProducts()
-        try{
-          const itemId = Object.values(products).find((product) => product.id === id)
-          if (itemId === undefined) {
-            console.log('Producto no existe');
-            return 'producto no existe';
-          } else {
-            console.log(itemId);
-            return itemId;
-          }
-        }catch(error){
-          return console.error(error)
-        }
-    }
-
-    updateProduct = async(id, actualizarCamp) =>{
-      const products = await this.getProducts();
-      try {
-        const index = await products.findIndex((product) => product.id === id);
-  
-        if (index === -1) {
-          return console.log("El producto no existe");
-        } else {
-          if (
-            actualizarCamp.hasOwnProperty("id") ||
-            actualizarCamp.hasOwnProperty("code")
-          ) {
-            return console.log("No se puede actualizar la propiedad 'id' o 'code'");
-          }
-  
-          Object.assign(products[index], actualizarCamp);
-          await fs.promises.writeFile(this.filename, JSON.stringify(products))
-          const updatedProduct = products[index];
-  
-          return console.log(updatedProduct);
-        }
-      } catch (error) {
-        return console.error(error);
+      if (index === -1) {
+        console.log(`Product with id: ${id} does not exist`);
+        return `Product with id: ${id} does not exist`;
       }
-    }
-
-    deleteProduct = async(id) =>{
-      let products = await this.getProducts();
-      try {
-        const product = Object.values(products).find((e) => e.id === id);
-  
-        if (product) {
-          products = products.filter((item) => item.id !== id);
-          await fs.promises.writeFile(this.filename, JSON.stringify(products));
-  
-          return products;
-        } else {
-          return false;
-        }
-      } catch (error) {
-        return console.error(error);
+      if (
+        propsProduct.hasOwnProperty("id") ||
+        propsProduct.hasOwnProperty("code")
+      ) {
+        return console.log("Cannot update 'id' or 'code' property");
+        
       }
+
+      Object.assign(products[index], propsProduct);
+      await fs.promises.writeFile(
+        ProductManager.#path,
+        JSON.stringify(products),
+        "utf-8"
+      );
+      const updatedProduct = products[index];
+
+      console.log(updatedProduct);
+      return updatedProduct;
+    } catch (error) {
+      return console.error(error);
     }
+  };
+
+  deleteProduct = async (id) => {
+    let products = await this.getProducts();
+    try {
+      const product = Object.values(products).find(
+        (product) => product.id === id
+      );
+
+      if (!product) {
+        console.log("Product does not exist");
+        return "Product does not exist";
+      }
+
+      products = products.filter((item) => item.id !== id);
+      await fs.promises.writeFile(
+        ProductManager.#path,
+        JSON.stringify(products),
+        "utf-8"
+      );
+
+      console.log("Product removed");
+      return "Product removed";
+    } catch (error) {
+      return console.log(error)
+    }
+  };
+
+  logicalDeleteProduct = async (id) => {
+    let products = await this.getProducts();
+    try {
+      const productIndex = Object.values(products).findIndex(
+        (product) => product.id === id
+      );
+
+      if (productIndex === -1) {
+        console.log("Product does not exist");
+         return "Product does not exist"
+      }
+
+      products[productIndex].status = false;
+
+      await fs.promises.writeFile(
+        ProductManager.#path,
+        JSON.stringify(products),
+        "utf-8"
+      );
+
+      console.log("Product logically removed");
+      return "Product logically removed";
+    } catch (error) {
+      return console.error(error);
+    }
+  };
 }
 
 module.exports = ProductManager;
-

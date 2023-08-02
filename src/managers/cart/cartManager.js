@@ -61,7 +61,7 @@ class CartManager {
         return cartId;
       }
     } catch (err) {
-      return console.error(err);
+      throw err;
     }
   };
 
@@ -96,7 +96,7 @@ class CartManager {
       );
       return cart;
     } catch (err) {
-      return console.error(err);
+      throw err;
     }
   };
 
@@ -113,7 +113,7 @@ class CartManager {
         return console.error("no existe el carrito");
       }
     } catch (err) {
-      return console.error(err);
+      throw error;
     }
   };
 }

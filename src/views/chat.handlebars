@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a href="./">
+            <img src="./static/imagenes/logo.png" width="50px" alt="logo"
+                class="d-inline-block align-text-top me-3 header__img" />
+        </a>
+    </div>
+    <div class="d-flex collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav align-items-center header__lista">
+            <li class="nav-item ms-3 header__item">
+                <a class="nav-link" href="./">Inicio</a>
+            </li>
+            <li class="nav-item ms-3 header__item">
+                <a class="nav-link" href="./realTimeProducts">RealTime</a>
+            </li>
+            <li class="nav-item ms-3 header__item">
+                <a class="nav-link" href="./form">Cargar</a>
+            </li>
+            <li class="nav-item ms-3 header__item">
+                <a class="nav-link active" href="./chat">Chat</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<br>
+
+<h1 class="text-center"><b id="username"></b> Chat</h1>
+
+<div style="display: flex; flex-direction: row; justify-content: space-around;">
+    <div>
+        <b>Escribe algo:</b>
+        <input id="chatbox">
+    </div>
+    <div class="card" style="box-shadow: 0px 0px 10px #969696">
+        <div><p class="text-center m-0"><b>Historial</b></p></div>
+        <hr style="margin: 2px 0 2px 0;">
+        <div id="logs" style="margin: 5px; width: 400px; height: 300px; overflow: auto;">
+            {{#each messages}}
+            <p><b>{{user}}:</b> {{message}}<i style="font-size: x-small; margin-left: 5px;">{{hour}}</i></p>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<footer class="bg-dark text-center text-white footer">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p class="m-0 name">Atlas Tech | 2023</p>
+    </div>
+</footer>
+
+{{!-- SweetAlert --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{!-- Socket.io --}}
+<script src="/socket.io/socket.io.js"></script>
+{{!-- Logica de Socket.io --}}
+<script src="/static/js/chat.js"></script>

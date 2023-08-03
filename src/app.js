@@ -36,7 +36,8 @@ const httpServer = app.listen(PORT, (req, res) => {
   console.log(`Server running at port: ${PORT}`)
 });
 
-const URL =  "mongodb+srv://Carlos1:Diane1411@codecarlos1.6frwium.mongodb.net/?retryWrites=true&w=majority"
+mongoose.set("strictQuery", false)
+const URL = "mongodb+srv://Carlos1:Diane1411@codecarlos1.6frwium.mongodb.net/?retryWrites=true&w=majority";
 
 
 mongoose.connect(URL, {

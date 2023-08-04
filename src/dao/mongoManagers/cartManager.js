@@ -1,4 +1,4 @@
-const CartModel = require("../../../models/model.cart.js")
+const CartModel = require("./models/model.cart.js")
 
 class CartManager{
     _getNextOrder = async () => {

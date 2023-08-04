@@ -1,4 +1,4 @@
-const ProductModel = require("../../../models/model.product.js");
+const ProductModel = require("./models/model.product.js");
 
 class ProductManager{
     _getNextOrder = async () => {

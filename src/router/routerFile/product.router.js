@@ -1,4 +1,4 @@
-const ProductManager = require("./ProductManager");
+const ProductManager = require("../../dao/fileManager/ProductManager.js");
 const {Router} = require("express");
 
 //me guesta poner la ruta de json, la rura es ese, pero no se porque no me encuentra el archivo :( 

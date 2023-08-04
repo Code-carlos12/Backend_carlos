@@ -1,4 +1,4 @@
-const ChatModel = require("../../../models/model.message.js")
+const ChatModel = require("./models/model.message.js")
 
 class ChatManager {
     saveMessage = async (message) => {

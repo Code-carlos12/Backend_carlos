@@ -1,4 +1,4 @@
-const ChatManager = require("../../../dao/remote/managers/chat/chatManager.js")
+const ChatManager = require("../../dao/mongoManagers/chatManager.js")
 const chatManager =new ChatManager();
 const { Router } = require("express");
 const router = Router();

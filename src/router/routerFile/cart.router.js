@@ -1,4 +1,4 @@
-const CartManager = require("./cartManager");
+const CartManager = require("../../dao/fileManager/cartManager.js");
 const cartManager = new CartManager();
 const { Router } = require("express");
 const router = Router();

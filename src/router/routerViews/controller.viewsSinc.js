@@ -1,4 +1,4 @@
-const ProductManager = require("../../dao/remote/managers/product/productManager.js");
+const ProductManager = require("../../dao/mongoManagers/productManager.js");
 const productManager = new ProductManager();
 const { Router } = require("express");
 const router = Router();

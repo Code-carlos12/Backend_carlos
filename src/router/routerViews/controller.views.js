@@ -1,10 +1,11 @@
-const ProductManager = require("../../dao/remote/managers/product/productManager.js");
+const ProductManager = require("../../dao/mongoManagers/productManager.js");
 const productManager = new ProductManager();
 const { Router } = require("express");
 const router = Router();
 
 router.post("/form", async (req, res) => {
   const { title, description, price, code, stock, category } = req.body;
+  console.log("controllerviews", req.body);
   const thumbnail = Array.isArray(req.body.thumbnail)
     ? req.body.thumbnail
     : [req.body.thumbnail];
@@ -14,19 +15,21 @@ router.post("/form", async (req, res) => {
   }
 
   try {
-    await productManager.addProduct(
+    const product = {
       title,
       description,
-      Number(price),
+      price: Number(price),
       thumbnail,
       code,
-      Number(stock),
+      stock: Number(stock),
       category
-    );
+    };
+
+    await productManager.addProduct(product)
     res.redirect("/");
-  } catch (error) {
-    if (error.message.includes("The product with")) {
-      res.status(409).json({ error409: error.message });
+  } catch (err) {
+    if (err.message.includes("The product with")) {
+      res.status(409).json({ error409: err.message });
     }
   }
 });
@@ -45,7 +48,7 @@ router.get("/", async (req, res) => {
         products: limitedProducts,
       });
     }
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({ error400: "Bad Request" });
   }
 });

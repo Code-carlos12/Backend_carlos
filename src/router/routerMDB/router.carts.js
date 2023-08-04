@@ -1,6 +1,6 @@
-const CartManager = require("../../dao/remote/managers/cart/cartManager.js");
+const CartManager = require("../../dao/mongoManagers/cartManager.js");
 const cartManager = new CartManager();
-const ProductManager = require("../../dao/remote/managers/product/productManager.js")
+const ProductManager = require("../../dao/mongoManagers/productManager.js")
 const productManager = new ProductManager();
 const { Router } = require("express");
 const router = Router();

@@ -4,7 +4,7 @@ const { Router } = require("express");
 const router = Router();
 
 router.get("/", async (req, res) => {
-    const messages = await chatManager.getMessage();
+    const messages = await chatManager.getMessages();
     const messagesReverse = messages.reverse();
     res.render("chat", { messages: messagesReverse })
 });

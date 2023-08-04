@@ -11,7 +11,7 @@ class ChatManager {
         }
     };
 
-    getMessage = async () => {
+    getMessages = async () => {
         try {
             const messages = await ChatModel.find()
 

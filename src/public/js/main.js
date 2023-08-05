@@ -34,9 +34,11 @@ formCreate.addEventListener("submit", (e) => {
 formDelete.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const id = Number(document.querySelector("input[name=id]").value);
+  const id = document.querySelector("input[name=id]").value;
 
-  socket.emit("cliente:deleteProduct", id);
+  console.log("mainjs", id);
+
+  socket.emit("client:deleteProduct", id);
 
   formDelete.reset();
 });

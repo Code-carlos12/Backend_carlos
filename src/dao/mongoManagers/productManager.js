@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const ProductModel = require("./models/model.product.js");
 
 class ProductManager{
@@ -65,6 +66,7 @@ class ProductManager{
 
     deleteProduct = async (id) => {
         try {
+           // const validObjectId = mongoose.Types.ObjectId(id)
             const productDeleted = await ProductModel.findByIdAndDelete(id);
 
             if(!productDeleted){
@@ -72,12 +74,14 @@ class ProductManager{
             }
             return "Product removed successfully";
         } catch (error) {
-            return console.log(error);
+             console.error(error);
+             return error;
         }
     };
 
     logicalDeleteProduct = async (id) => {
       try {
+        //const validObjectId = mongoose.Types.ObjectId(id)
         const product = await ProductModel.findById(id);
 
         if(!product){
@@ -85,9 +89,10 @@ class ProductManager{
         }
         product.status  = false;
         await product.save();
-        return console.lod("Product status updated successfully");
+        return console.log("Product status updated successfully");
       } catch (error) {
-        return console.log(error);
+        console.error(error);
+         return error;
       }  
     };
 }

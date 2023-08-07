@@ -66,7 +66,7 @@ class ProductManager{
 
     deleteProduct = async (id) => {
         try {
-           // const validObjectId = mongoose.Types.ObjectId(id)
+           
             const productDeleted = await ProductModel.findByIdAndDelete(id);
 
             if(!productDeleted){
@@ -81,18 +81,21 @@ class ProductManager{
 
     logicalDeleteProduct = async (id) => {
       try {
-        //const validObjectId = mongoose.Types.ObjectId(id)
+        
         const product = await ProductModel.findById(id);
 
         if(!product){
             return console.log("Product does not exist");
         }
+
         product.status  = false;
+
         await product.save();
-        return console.log("Product status updated successfully");
+
+        //return console.log("Product status updated successfully");
+        return true;
       } catch (error) {
-        console.error(error);
-         return error;
+        throw error;
       }  
     };
 }

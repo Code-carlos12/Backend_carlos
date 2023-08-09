@@ -58,7 +58,7 @@ class ProductManager{
             if(!validate){
                 return console.log(`Product with id: ${id} does not exist`);
             }
-            return "update product successfully"
+            return true;
         } catch (error) {
             return console.log(error)
         }

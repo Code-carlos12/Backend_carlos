@@ -52,7 +52,7 @@ class CartManager{
             if (!validate){
                 return console.log(`Cart with id: ${id} does not exist`)
             }
-            return "Cart products updated"
+            return true;
         } catch (error) {
             return console.log(error)
         }

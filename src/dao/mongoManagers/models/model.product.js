@@ -1,4 +1,6 @@
 const mongoose = require("mongoose")
+const mongoosePaginate = require("mongoose-paginate-v2")
+
 const productsCollection = "products"
 
 const productSchema = new mongoose.Schema({
@@ -14,6 +16,8 @@ const productSchema = new mongoose.Schema({
     category: String,
     status: Boolean
 });
+
+productSchema.plugin(mongoosePaginate);
 
 mongoose.set("strictQuery", false);
 

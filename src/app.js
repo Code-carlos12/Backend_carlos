@@ -4,6 +4,8 @@ const router = require("./router/router.js");
 const handlebars = require("express-handlebars");
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 const ProductManager = require("./dao/mongoManagers/productManager.js");
 const productManager = new ProductManager();
@@ -37,6 +39,25 @@ const httpServer = app.listen(PORT, (req, res) => {
 
 const URL =
   "mongodb+srv://Carlos1:Diane1411@codecarlos1.6frwium.mongodb.net/?retryWrites=true&w=majority";
+
+app.use(
+  session({
+    strore: MongoStore.create({
+      mongoUrl: URL,
+      dbName: "ecommerce",
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      },
+      ttl: 1000
+    }),
+
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
 
 mongoose
   .connect(URL, {

@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose");
 const ProductModel = require("./models/model.product.js");
 
 class ProductManager{
@@ -66,22 +65,19 @@ class ProductManager{
 
     deleteProduct = async (id) => {
         try {
-           
             const productDeleted = await ProductModel.findByIdAndDelete(id);
 
-            if(!productDeleted){
+            if(productDeleted === null){
                 return console.log("Product does not exist")
             }
             return "Product removed successfully";
         } catch (error) {
-             console.error(error);
-             return error;
+            return console.log(error);
         }
     };
 
     logicalDeleteProduct = async (id) => {
       try {
-        
         const product = await ProductModel.findById(id);
 
         if(!product){
@@ -91,11 +87,11 @@ class ProductManager{
         product.status  = false;
 
         await product.save();
-
-        //return console.log("Product status updated successfully");
+        
+        //return console.lod("Product status updated successfully");
         return true;
       } catch (error) {
-        throw error;
+        return console.log(error);
       }  
     };
 }

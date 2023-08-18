@@ -25,3 +25,5 @@ const userSchema = new mongoose.Schema({
 mongoose.set("strictQuery", false);
 
 const UserModel = mongoose.model(usersCollections, userSchema)
+
+module.exports = UserModel;

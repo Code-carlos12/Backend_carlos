@@ -42,7 +42,7 @@ const URL =
 
 app.use(
   session({
-    strore: MongoStore.create({
+    store: MongoStore.create({
       mongoUrl: URL,
       dbName: "ecommerce",
       mongoOptions: {

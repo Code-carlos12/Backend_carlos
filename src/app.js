@@ -15,6 +15,28 @@ const chatManager = new ChatManager()
 
 const PORT = process.env.PORT || 8080;
 
+const URL =
+  "mongodb+srv://Carlos1:Diane1411@codecarlos1.6frwium.mongodb.net/?retryWrites=true&w=majority";
+
+  app.use(
+    session({
+      store: MongoStore.create({
+        mongoUrl: URL,
+        dbName: "ecommerce",
+        mongoOptions: {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        },
+        ttl: 1000
+      }),
+  
+      secret: 'secret',
+      resave: true,
+      saveUninitialized: true
+    })
+  );
+
+  
 app.use("/static", express.static("./src/public"));
 
 app.use(express.json());
@@ -36,41 +58,6 @@ router(app);
 const httpServer = app.listen(PORT, (req, res) => {
   console.log(`Server running at port: ${PORT}`);
 });
-
-const URL =
-  "mongodb+srv://Carlos1:Diane1411@codecarlos1.6frwium.mongodb.net/?retryWrites=true&w=majority";
-
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl: URL,
-      dbName: "ecommerce",
-      mongoOptions: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      },
-      ttl: 1000
-    }),
-
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-  })
-);
-
-
-mongoose
-  .connect(URL, {
-    dbName: "ecommerce",
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("DB connected");
-  })
-  .catch((e) => {
-    console.log("Can't connect to DB");
-  });
 
 const io = new Server(httpServer);
 
@@ -135,3 +122,19 @@ io.on("connection", (socket) => {
     console.log(`User ${socket.id} disconnected`);
   });
 });
+
+mongoose
+  .connect(URL, {
+    dbName: "ecommerce",
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("DB connected");
+  })
+  .catch((e) => {
+    console.log("Can't connect to DB");
+  });
+
+
+

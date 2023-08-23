@@ -23,14 +23,16 @@ router.post("/form", async (req, res) => {
       thumbnail,
       code,
       stock: Number(stock),
-      category
+      category,
     };
 
-    await productManager.addProduct(product)
+    await productManager.addProduct(product);
     res.redirect("/");
   } catch (err) {
     if (err.message.includes("The product with")) {
       res.status(409).json({ error409: err.message });
+    } else {
+      res.status(500).json({ message: `Internal server error. ${err}` });
     }
   }
 });

@@ -1,6 +1,6 @@
 const productRouter = require("./routerFile/product.router.js");
 const cartRouter = require("./routerFile/cart.router.js");
-//const viewsControllerAsinc = require("./routerViews/productView/controller.views.js");
+const viewsControllerAsinc = require("./routerViews/productView/controller.views.js");
 const viewsControllerSinc = require("./routerViews/productView/controller.viewsSinc.js");
 const productsRouterMDB = require("./routerMDB/router.products.js")
 const cartRouterMDB = require("./routerMDB/router.carts.js")
@@ -22,6 +22,7 @@ const router = (app) =>{
     app.use("/realTimeProducts", viewsControllerSinc)
     app.use("/chat", chatRouter)
     app.use("/cart", viewsControllerCart)
+    app.use("/form", viewsControllerAsinc)
 };
 
 module.exports = router;
